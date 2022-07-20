@@ -1,8 +1,28 @@
-from math import factorial
 import sys
+input = sys.stdin.readline
 
-input = sys.stdin.readline()
+n, k = map(int, input().split())
+p = 1000000007
 
-n, k = map(int,input().split())
+def factorial(n):
+    answer = 1
+    for i in range(2, n+1):
+        answer = (answer * i) % p
+    return answer
 
-print(factorial(n-k)/factorial(k))
+def square(n, k):
+    if k == 0:
+        return 1
+    elif k == 1:
+        return n
+    
+    tmp = square(n, k//2)
+    if k % 2:
+        return tmp * tmp * n % p
+    else:
+        return tmp * tmp % p
+
+top = factorial(n)
+bot = factorial(n-k) * factorial(k) % p
+
+print(top * square(bot, p-2) % p)
