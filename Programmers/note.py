@@ -1,19 +1,11 @@
-def solution(land, P, Q):
-    left = min(min(_) for _ in land)
-    right = min(min(_) for _ in land)
-    mid = (left+right)//2
-    leftval = 0
-    rightval = 0
-    for i in land:
-        for j in land:
-            leftval += P*(leftval-j) if j<leftval else Q*(j-leftval)
-            rightval += P*(rightval-j) if j<rightval else Q*(j-rightval)
-    while left<right:
-        answer = 0
-        for i in land:
-            for j in i:
-                answer += P*(mid-j) if j<mid else Q*(j-mid)
-        if 
-
-    return answer
-print(max(max(_) for _ in a))
+def solution(n):
+    sets = [set() for _ in range(15)]
+    sets[1].add('()')
+    for i in range(2,n+1):
+        for j in range(i//2+1):
+            sets[i].add(sets[j]+sets[i-j])
+            sets[i].add(sets[i-j]+sets[j])
+        for shorts in sets[i-1]:
+            sets[i].update((shorts+"()","("+shorts+")","()"+shorts))
+    return len(sets[n])
+print(solution(4))
